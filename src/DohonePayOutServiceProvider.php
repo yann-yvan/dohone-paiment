@@ -13,7 +13,7 @@ class DohonePayOutServiceProvider extends ServiceProvider
             return new DohonePayOut();
         });
 
-        $this->mergeConfigFrom(__DIR__.'/../config/dohone.php', 'dohone');
+        //$this->mergeConfigFrom(__DIR__.'/../config/dohone.php', 'dohone');
     }
 
     public function boot()
