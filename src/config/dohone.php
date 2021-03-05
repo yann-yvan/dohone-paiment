@@ -20,5 +20,5 @@ return [
     'rLocale' => 'fr',
     'rOnly' => '1, 2, 3, 5, 10, 14, 15, 16, 17',
     'numberNotifs' => 5,
-    'url' => env("DOHONE_SANDBOX") ? 'https://www.my-dohone.com/dohone-sandbox/pay' : 'https://www.my-dohone.com/dohone/pay',
+    'url' => env("DOHONE_SANDBOX",false) ? 'https://www.my-dohone.com/dohone-sandbox/pay' : 'https://www.my-dohone.com/dohone/pay',
 ];
