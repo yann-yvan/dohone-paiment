@@ -45,7 +45,7 @@ abstract class  DohoneCommand
         if ($validator->fails()) {
             return self::reply(!$validator->fails(), $validator->errors());
         }
-        $http = Http::get(config('dohone.url'), $data);
+        $http = Http::get(config('dohone.url',"http"), $data);
         if ($http->successful()) {
             return $this->responseParser($http->body());
         } else {
