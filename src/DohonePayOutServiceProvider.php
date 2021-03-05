@@ -21,7 +21,7 @@ class DohonePayOutServiceProvider extends ServiceProvider
         if ($this->app->runningInConsole()) {
 
             $this->publishes([
-                __DIR__.'/../config/config.php' => config_path('dohone.php'),
+                __DIR__.'/../config/dohone.php' => config_path('dohone.php'),
             ], 'config');
 
         }
