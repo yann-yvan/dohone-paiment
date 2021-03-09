@@ -1,5 +1,5 @@
 {
-    "name": "dohone/pay-out",
+    "name": "dohone/payment",
     "description": "Pay-out API To charge a customer, this means to send this form to DOHONE duly filled in by your system.",
     "type": "library",
     "require": {
@@ -15,16 +15,17 @@
     "minimum-stability": "dev",
     "autoload": {
         "psr-4": {
-            "Dohone\\PayOut\\": "src"
+            "Dohone\\": "src"
         }
     },
     "extra": {
         "laravel": {
             "providers": [
-                "Dohone\\PayOut\\DohonePayOutServiceProvider"
+                "Dohone\\DohonePayServiceProvider"
             ],
             "aliases": {
-                "Calculator": "Dohone\\PayOut\\Facades\\DohonePayOut"
+                "DohonePayIn": "Dohone\\Facades\\DohonePayIn",
+                "DohonePayOut": "Dohone\\Facades\\DohonePayIn"
             }
         }
     },

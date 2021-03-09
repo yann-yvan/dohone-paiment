@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Dohone\PayOut\Dohone\PayOut;
+namespace Dohone;
 
 
 class DohoneResponse
@@ -10,20 +10,24 @@ class DohoneResponse
     private $message;
     private $shouldVerify;
     private $payment_url;
+    private $errors;
 
     /**
      * DohoneResponse constructor.
-     * @param $success
-     * @param $message
-     * @param $shouldVerify
-     * @param $payment_url
+     *
+     * @param      $success
+     * @param      $message
+     * @param null $errors
+     * @param bool $shouldVerify
+     * @param      $payment_url
      */
-    public function __construct($success, $message, $shouldVerify = false, $payment_url = null)
+    public function __construct($success, $message, $errors = null, $shouldVerify = false, $payment_url = null)
     {
         $this->success = $success;
         $this->message = $message;
         $this->shouldVerify = $shouldVerify;
         $this->payment_url = $payment_url;
+        $this->errors = $errors;
     }
 
     /**
@@ -56,5 +60,13 @@ class DohoneResponse
     public function getPaymentUrl()
     {
         return $this->payment_url;
+    }
+
+    /**
+     * @return null
+     */
+    public function getErrors()
+    {
+        return $this->errors;
     }
 }

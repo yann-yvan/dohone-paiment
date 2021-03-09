@@ -6,10 +6,10 @@ namespace Dohone\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class DohonePayOut extends Facade
+class DohonePayIn extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'payout';
+        return 'payin';
     }
 }
