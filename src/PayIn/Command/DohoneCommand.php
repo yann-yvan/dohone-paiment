@@ -62,7 +62,7 @@ abstract class  DohoneCommand
             return self::reply(!$validator->fails(), 'Please set all required values listed in errors logs', $validator->errors());
         }
 
-        $http = Http::get(config('dohone.url', "https://www.my-dohone.com/dohone/pay"), $this->getData());
+        $http = Http::get(config('dohone.payInUrl', "https://www.my-dohone.com/dohone/pay"), $this->getData());
         if ($http->successful()) {
             return $this->responseParser($http->body(), $http);
         } else {

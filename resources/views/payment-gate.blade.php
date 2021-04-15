@@ -154,7 +154,7 @@
     </div>
 </div>
 
-<form action="{{config('dohone.url')}}" method="POST" id="form" hidden>
+<form action="{{config('dohone.payInUrl')}}" method="POST" id="form" hidden>
     <input type="hidden" name="cmd" value="start"> <!--
 Cette Valeur est à ne pas changer et elle est Obligatoire -->
     <input type="hidden" name="rN" value="{{$data['rN']}}"> <!-- le

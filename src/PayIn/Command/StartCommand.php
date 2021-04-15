@@ -319,7 +319,7 @@ abstract class StartCommand extends DohoneCommand
      */
     public function getNotifyPage()
     {
-        return empty($this->notifyPage) ? config("dohone.notifyPage") : $this->notifyPage;
+        return empty($this->notifyPage) ? config("dohone.payInNotifyPage") : $this->notifyPage;
     }
 
     /**

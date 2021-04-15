@@ -1,4 +1,4 @@
-# DOHONE PAYOUT API AND WEB
+# DOHONE PAYOUT, PAYIN API AND WEB
 
 ## If you wish to make your customers pay by Orange Money, MTN Mobile Money, Express Union Mobile or DOHONE transfert, on your mobile application and your website with or without a DOHONE graphic interface, the principle is simple.
 
@@ -9,6 +9,8 @@
 3. Make Payment without Web interface
 4. Make SMS verification
 5. Make payment verification
+6. Make payout to mobile phone
+7. Make payout to back account
 
 ## Usage
 
@@ -30,22 +32,27 @@ $ php artisan vendor:publish --provider="Dohone\DohonePayServiceProvider"
 
 ### Step 3:
 
-#### Update your dohone.php config with your merchand hashcode
+#### Update your ```config/dohone.php``` config with your merchand hashcode
 
 ```php
 return [
-    'rH' => 'XXXXXXXX',
-    'rDvs' => 'XAF',
-    'source' => env('APP_NAME', "Dohone"),
-    'logo' => 'assets/images/logo.png',
+   'merchantToken' => 'XXXXXXXX',
+    'currency' => 'XAF',
+    'projectName' => env('APP_NAME', "Dohone"),
+    'projectLogo' => 'http://localhost/assets/images/logo.png',
     'endPage' => env('APP_URL', "http://localhost"),
-    'notifyPage' => env('APP_URL', "http://localhost"),
+    'payInNotifyPage' => env('APP_URL', "http://localhost"),
     'cancelPage' => env('APP_URL', "http://localhost"),
-    'rLocale' => 'fr',
-    'rOnly' => '1, 2, 3, 5, 10, 14, 15, 16, 17',
+    'language' => 'fr',
+    'method' => '1, 2, 3, 10, 17',
     'numberNotifs' => 5,
-    'url' => env("DOHONE_SANDBOX",false) ? 'https://www.my-dohone.com/dohone-sandbox/pay' : 'https://www.my-dohone.com/dohone/pay',
-];
+    'payInUrl' => env("DOHONE_SANDBOX",false) ? 'https://www.my-dohone.com/dohone-sandbox/pay' : 'https://www.my-dohone.com/dohone/pay',
+
+    'payOutHashCode' => 'XXXXXXXX',
+    'payOutPhoneAccount' => 'XXXXXXXX',
+    'payOutNotifyPage' => env('APP_URL', "http://localhost"),
+    'payOutUrl' => env("DOHONE_SANDBOX",false) ? 'https://www.my-dohone.com/dohone-sandbox/transfert' : 'https://www.my-dohone.com/dohone/transfert',
+   ];
 ```
 
 ### Step 4: (optional)
@@ -56,7 +63,7 @@ return [
 DOHONE_SANDBOX=true
 ```
 
-## Start using the API
+# PAYIN API AND WEB
 
 ### 1. Make Quotation
 
@@ -75,11 +82,10 @@ $response = DohonePayIn::quotation()
     }
 ```
 
-
 ### 2. Make Payment using Web interface
 
 ```php
- $builder= DohonePayIn::payWithUI()
+ $builder = DohonePayIn::payWithUI()
         ->setAmount(123)
         ->setClientPhone("695499969")
         ->setClientEmail("yann@email.com")
@@ -92,8 +98,7 @@ $response = DohonePayIn::quotation()
     }
 ```
 
-
-### 3. Make Payment without Web interface
+### 3. Make Payment with API REST (You need authorization to use this method)
 
 ```php
 $response = DohonePayIn::payWithAPI()
@@ -113,7 +118,6 @@ $response = DohonePayIn::payWithAPI()
     }
 ```
 
-
 ### 4. Make SMS verification
 
 ```php
@@ -129,7 +133,6 @@ $response = DohonePayIn::sms()
         echo $response->getMessage();
     }
 ```
-
 
 ### 5. Make payment verification
 
@@ -148,10 +151,31 @@ $response = DohonePayIn::verify()
     }
 ```
 
+# PAYOUT API
 
-## Response object method return by each 
+### 1. Make payout to mobile phone
 
-*Method* | *Description* 
+```php
+$response = DohonePayOut::mobile()
+        ->setAmount("amount to send")
+        ->setMethod(6)
+        ->setReceiverAccount('receiver phone number with country country code ex:237XXXXXX')
+        ->setReceiverCity("city")
+        ->setReceiverCountry("country name")
+        ->setReceiverName("receiver name")
+        ->post();
+    if ($response->isSuccess()) {
+    //success code goes here
+        echo $response->getMessage();
+    } else {
+    //error code goes here
+        echo $response->getMessage();
+    }
+```
+
+## Response object method return by each
+
+*Method* | *Description*
 --- | --- 
 isSuccess() |  Is true when there is no error
 getMessage() |  Content a description of the response
