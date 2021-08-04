@@ -4,6 +4,7 @@
 namespace Dohone\PayIn\Command;
 
 
+use Exception;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -94,7 +95,11 @@ class StartCommandAPI extends StartCommand
 
     protected function responseParser($body, $httpClient)
     {
-        $resSplit = explode(':', $body);
-        return self::reply(Str::contains($resSplit[0], 'OK'), join(":", $resSplit), null, Str::contains(join(":", $resSplit), 'SMS'));
+        try {
+            $resSplit = explode(':', $body);
+            return self::reply(Str::contains($resSplit[0], 'OK'), join(":", $resSplit), null, Str::contains(join(":", $resSplit), 'SMS'));
+        }catch (Exception $exception){
+            return $this->reply(false,$body);
+        }
     }
 }

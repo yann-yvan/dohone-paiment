@@ -12,6 +12,12 @@ use Dohone\PayIn\Command\VerifyCommand;
 
 class  DohonePayIn
 {
+    const MTN = 1;
+    const ORANGE = 2;
+    const EXPRESS_UNION = 3;
+    const DOHONE = 10;
+    const YUP = 17;
+
     /**
      * Launching the START command is equivalent to launching an http request to the
      * DOHONE server, containing certain parameters, via the GET method.
