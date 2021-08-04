@@ -50,10 +50,13 @@ abstract class StartCommand extends DohoneCommand
 
     /**
      * @param mixed $clientID
+     *
+     * @return StartCommand
      */
     public function setClientID($clientID)
     {
         $this->clientID = $clientID;
+        return $this;
     }
 
     protected function validatorRules()
