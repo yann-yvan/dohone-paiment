@@ -58,7 +58,7 @@ abstract class  DohoneCommand
     public function get()
     {
         if(env("APP_DEBUG"))
-            print_r($this->getData());
+            error_log(join(",",$this->getData()));
         $validator = Validator::make($this->getData(), $this->getRules());
         if ($validator->fails()) {
             return self::reply(!$validator->fails(), 'Please set all required values listed in errors logs', $validator->errors());
