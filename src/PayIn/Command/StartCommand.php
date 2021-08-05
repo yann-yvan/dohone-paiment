@@ -62,7 +62,7 @@ abstract class StartCommand extends DohoneCommand
     protected function validatorRules()
     {
         return [
-            'rMt' => ['required', 'integer'],
+            'rMt' => ['required', 'numeric'],
             'rDvs' => ['required', Rule::in(['XAF', 'EUR', 'USD'])],
             'source' => ['required', 'string'],
             'endPage' => ['required', 'url'],
