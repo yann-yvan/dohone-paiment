@@ -9,10 +9,10 @@ use Dohone\PayOut\Transfer\MobileTransfer;
 
 class DohonePayOut
 {
-    const MTN = 1;
-    const ORANGE = 2;
+    const MTN = 5;
+    const ORANGE = 6;
     const EXPRESS_UNION = 3;
-    const DOHONE = 10;
+    const DOHONE = 1;
     const YUP = 17;
 
     public static function card()

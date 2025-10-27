@@ -46,15 +46,16 @@ abstract class DohoneTransfer
     {
         $validator = Validator::make($this->getData(), $this->getRules());
         if ($validator->fails()) {
-            return self::reply(!$validator->fails(), 'Please set all required values listed in errors logs', $validator->errors());
+            return $this->reply(!$validator->fails(), 'Please set all required values listed in errors logs', $validator->errors());
         }
 
-        $http = Http::get(config('dohone.payOutUrl', "https://www.my-dohone.com/dohone/transfert"), $this->getData());
-        if ($http->successful()) {
-            return $this->reply(str_contains($http->body(), 'OK'), $http->body());
-        } else {
-            return $this->reply(false, $http->body());
+        $response = Http::timeout(100)->get(config('dohone.payOutUrl', "https://www.my-dohone.com/dohone/transfert"), $this->getData());
+        $body = mb_convert_encoding($response->body(), 'UTF-8', 'auto');
+        if ($response->successful()) {
+            return $this->reply(str_contains($body, 'OK'), $body);
         }
+
+        return $this->reply(false, $body);
     }
 
     /**
