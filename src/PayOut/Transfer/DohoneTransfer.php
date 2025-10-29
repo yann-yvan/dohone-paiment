@@ -7,6 +7,7 @@ namespace Dohone\PayOut\Transfer;
 use Dohone\DohoneResponse;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
 
 abstract class DohoneTransfer
 {
@@ -70,12 +71,32 @@ abstract class DohoneTransfer
             'amount' => $this->getAmount(),
             'transID' => $this->getTransactionID(),
             'devise' => $this->getCurrency(),
-            'nameDest' => $this->getReceiverName(),
-            'ville' => $this->getReceiverCity(),
-            'pays' => $this->getReceiverCountry(),
+            'nameDest' => $this->sanitize_string($this->getReceiverName()),
+            'ville' => $this->sanitize_string($this->getReceiverCity()),
+            'pays' => $this->sanitize_string($this->getReceiverCountry()),
             'hash' => md5($this->getPayerPhoneAccount() . $this->getMethod() . $this->getAmount() . $this->getCurrency() . $this->getTransactionID() . $this->getHashCode()),
             'notifyUrl' => $this->getNotifyUrl(),
         ];
+    }
+
+    public function sanitize_string(string $value): string
+    {
+        // 1️⃣ Remove accents (é → e, ñ → n, etc.)
+        $value = Str::ascii($value);
+
+        // 2️⃣ Remove emojis and other non-standard Unicode characters
+        $value = preg_replace([
+            '/[\x{1F600}-\x{1F64F}]/u', // Emoticons
+            '/[\x{1F300}-\x{1F5FF}]/u', // Symbols & pictographs
+            '/[\x{1F680}-\x{1F6FF}]/u', // Transport & map symbols
+            '/[\x{1F1E0}-\x{1F1FF}]/u', // Flags
+            '/[\x{2600}-\x{26FF}]/u',   // Misc symbols
+            '/[\x{2700}-\x{27BF}]/u',   // Dingbats
+            '/[^\x20-\x7E]/',           // Remove non-ASCII leftovers
+        ], '', $value);
+
+        // 3️⃣ Clean up spaces
+        return trim(preg_replace('/\s+/', ' ', $value));
     }
 
     /**
